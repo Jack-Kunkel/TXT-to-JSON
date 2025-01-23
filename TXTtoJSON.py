@@ -3,29 +3,24 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 
 def text_to_json(input_file, output_file):
-    # Initialize an empty list to store the lines
+
     data = []
     
-    # Read the text file
     try:
         with open(input_file, 'r', encoding='utf-8') as f:
-            # Read each line, replace fancy apostrophes, and add to the list
             for line in f:
-                clean_line = line.replace("’", "'")  # Replace fancy apostrophe
+                clean_line = line.replace("’", "'") 
                 data.append({"name": f"{clean_line.strip()}"})
         
-        # Write to JSON file with desired formatting
         with open(output_file, 'w') as f:
-            f.write("[\n")  # Start the JSON array
+            f.write("[\n") 
             for i, item in enumerate(data):
-                # Write each object on its own line without escaping non-ASCII characters
                 f.write(f'\t{json.dumps(item, ensure_ascii=False)}')
-                # Add a comma unless it's the last item
                 if i < len(data) - 1:
                     f.write(",\n")
                 else:
                     f.write("\n")
-            f.write("]\n")  # Close the JSON array
+            f.write("]\n")  
         
         messagebox.showinfo("Success", f"Successfully converted {input_file} to {output_file}")
             
@@ -57,12 +52,10 @@ def convert():
         messagebox.showwarning("Warning", "Please select both input and output files")
 
 if __name__ == "__main__":
-    # Create main window
     root = tk.Tk()
     root.title("Text to JSON Converter")
     root.geometry("500x200")
     
-    # Input file selection
     tk.Label(root, text="Input Text File:").pack(pady=5)
     input_frame = tk.Frame(root)
     input_frame.pack(fill=tk.X, padx=20)
@@ -70,7 +63,6 @@ if __name__ == "__main__":
     input_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
     tk.Button(input_frame, text="Browse", command=browse_input_file).pack(side=tk.RIGHT, padx=5)
     
-    # Output file selection
     tk.Label(root, text="Output JSON File:").pack(pady=5)
     output_frame = tk.Frame(root)
     output_frame.pack(fill=tk.X, padx=20)
@@ -78,7 +70,6 @@ if __name__ == "__main__":
     output_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
     tk.Button(output_frame, text="Browse", command=browse_output_file).pack(side=tk.RIGHT, padx=5)
     
-    # Convert button
     tk.Button(root, text="Convert", command=convert, width=20).pack(pady=20)
     
     root.mainloop()
